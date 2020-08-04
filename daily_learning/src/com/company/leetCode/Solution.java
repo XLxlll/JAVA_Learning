@@ -10,6 +10,48 @@ import java.util.Comparator;
  * @Version 1.0
  */
 public class Solution {
+    public static void main(String[] args) {
+        int[][] points = {{1,3},{2,4}};
+        Solution solution = new Solution();
+        System.out.println(solution.intervalSchedule(points));
+    }
+    /**
+     * @description 452. Minimum Number of Arrows to Burst Balloons
+     * 考察最多有几个不重叠区域，就至少需要几个箭头
+     * 注意这里的条件中X_start <= X <= X_end,也就是说这里区间端点相同的，区间就重复了
+     * @param points
+     * @return int
+     * @author Geek_Ling
+     * @date 2020/8/3
+     */
+
+    public int findMinArrowShots(int[][] points) {
+        return intervalsSchedule(points);
+    }
+
+    private int intervalsSchedule(int[][] points){
+        if (points.length == 0) return 0;
+        //按照end升序排列
+        Arrays.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] -o2[1];
+            }
+        });
+        int count = 1;
+        //选择升序排列之后的第一个区间作为x
+        int x_end = points[0][1];
+        for (int[] point:
+             points) {
+            int start = point[0];
+            //只有下一个的start大于x的end，在该题目下，才是不重叠的区间
+            if (start > x_end){
+                count ++;
+                x_end = point[1];
+            }
+        }
+        return count;
+    }
     /**
      * @description 435. Non-overlapping Intervals
      * intervalSchedule -- 求解的是最多有几个区间不会重叠，
@@ -47,7 +89,7 @@ public class Solution {
                 return o1[1] - o2[1];
             }
         });
-        //至少有一个区间不相交
+        //至少有一个区间不相交,
         int counts = 1;
         //排序后，第一个区间就是x
         int end_x = intervals[0][1];
