@@ -28,7 +28,7 @@ public class Student implements Comparable<Student>{
 
     @Override
     public int compareTo(Student o) {
-        System.out.println(this.name+" == "+o.name);
+        System.out.println(this.name+"  Comparable "+o.name);
         //A B比较的话 this指的是B，o指的是A，B的score>A的score的话，返回-1交换位置，也就是说降序
        if (this.score > o.score){
            return -1;
