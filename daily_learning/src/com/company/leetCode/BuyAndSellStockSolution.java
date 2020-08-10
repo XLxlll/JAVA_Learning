@@ -1,5 +1,7 @@
 package com.company.leetCode;
 
+import java.awt.datatransfer.FlavorEvent;
+
 /**
  * @title: BuyAndSellStockSolution --团灭股票问题
  * @Author Geek_Ling
@@ -8,9 +10,67 @@ package com.company.leetCode;
  */
 public class BuyAndSellStockSolution {
     public static void main(String[] args) {
-        int[] prices = {3,3,5,0,0,3,1,4};
+        int[] prices = {1,3,2,8,4,9};
         BuyAndSellStockSolution buyAndSellStockSolution = new BuyAndSellStockSolution();
-        System.out.println(buyAndSellStockSolution.maxProfit(prices));
+       /* System.out.println(buyAndSellStockSolution.maxProfit(prices));*/
+        System.out.println(" main "+buyAndSellStockSolution.maxProfit(prices,2));
+    }
+    /**
+     * @description
+     * @param prices
+     * @return int
+     * @author Geek_Ling
+     * @date 2020/8/10
+     */
+
+    public int maxProfit_k(int[] prices){
+        int dp_i_0 = 0,dp_i_1 = Integer.MIN_VALUE;
+        for (int i = 0; i < prices.length ; i++) {
+            int temp = dp_i_0;
+            dp_i_0 = Math.max(dp_i_0,dp_i_1 + prices[i]);
+            dp_i_1 = Math.max(dp_i_1,temp-prices[i]);
+        }
+        return dp_i_0;
+    }
+    /**
+     * @description 14. Best Time to Buy and Sell Stock with Transaction Fee
+     * @param prices
+     * @param fee  一次交易费用
+     * @return int
+     * @author Geek_Ling
+     * @date 2020/8/10 
+     */
+    
+    public int maxProfit(int[] prices, int fee) {
+        if (prices.length == 0) return 0;
+        int dp_i_0 = 0,dp_i_1 = Integer.MIN_VALUE;
+        for (int i = 0; i <prices.length ; i++) {
+            int temp = dp_i_0;
+            dp_i_0 = Math.max(dp_i_0,dp_i_1 + prices[i]);
+            dp_i_1 = Math.max(dp_i_1,temp - prices[i] - fee);
+
+        }
+        return dp_i_0;
+    }
+    /**
+     * @description 309. Best Time to Buy and Sell Stock with Cooldown
+     * @param prices
+     * @return int
+     * @author Geek_Ling
+     * @date 2020/8/10
+     */
+
+    public int maxProfit_cooldown(int[] prices) {
+        if (prices.length == 0) return  0 ;
+        int dp_i_0 = 0,dp_i_1 = Integer.MIN_VALUE,dp_pre_0 = 0;
+        for (int i = 0; i <prices.length ; i++) {
+            int temp = dp_i_0;
+            dp_i_0 = Math.max(dp_i_0,dp_i_1+prices[i]);
+            //卖出后需要冷冻一天才可以买入
+            dp_i_1 = Math.max(dp_i_1,dp_pre_0 - prices[i]);
+            dp_pre_0 = temp;
+        }
+        return dp_i_0;
     }
     /** 121. Best Time to Buy and Sell Stock
      * K = 1
@@ -21,7 +81,7 @@ public class BuyAndSellStockSolution {
      * @date 2020/8/5
      */
 
-    public int maxProfit_one(int[] prices) {
+    public int maxProfit_1(int[] prices) {
         if (prices.length == 0) return 0;
         int dp_i_0 = 0,dp_i_1 = Integer.MIN_VALUE;
         for (int i = 0; i < prices.length ; i++) {
@@ -43,11 +103,16 @@ public class BuyAndSellStockSolution {
     public int maxProfit(int k, int[] prices) {
         if (prices.length == 0) return 0;
         int N = prices.length;
+        if (k > N/2){
+            //一次交易由买入和卖出构成，有效的限制k应该不超过N/2，如果超过了,就没与约束，相等于k可以取任意次数
+            return maxProfit_k(prices);
+        }
         int K = k+1;
         int S = 2;
         int[][][] dp = new int[N][K][S];
         for (int i = 0; i <N ; i++) {
             for (int j = k ; j >=1; j--) {
+
                 if (i-1 == -1){
                     if (j -1 == -1){
                         //交易次数为0
@@ -75,7 +140,7 @@ public class BuyAndSellStockSolution {
      * @date 2020/8/5
      */
 
-    public int maxProfit(int[] prices) {
+    public int maxProfit_2(int[] prices) {
         if (prices.length == 0) return 0;
         int N = prices.length;
         int K = 3;//[0,1,2]
