@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /***
  * 创建线程1.继承Thread，重写run方法
+ * Thread implements Runnable
  */
 public class ThreadLearning1 extends Thread {
     @Override
