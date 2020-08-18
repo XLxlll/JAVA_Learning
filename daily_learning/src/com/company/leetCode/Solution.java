@@ -2,6 +2,8 @@ package com.company.leetCode;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * @title: Solution
@@ -13,8 +15,57 @@ public class Solution {
     public static void main(String[] args) {
         int[][] points = {{1,3},{2,4}};
         Solution solution = new Solution();
-        System.out.println(solution.intervalSchedule(points));
+       /* System.out.println(solution.intervalSchedule(points));*/
+
+        String str2 = ")()())";
+
+        System.out.println(solution.longestValidParentheses(str2));
     }
+    /**
+     * @description 1480. Running Sum of 1d Array
+     * @param nums
+     * @return int[]
+     * @author Geek_Ling
+     * @date 2020/8/18
+     */
+
+    public int[] runningSum(int[] nums) {
+        int[] preSum = new int[nums.length+1];
+        for (int i = 1; i <preSum.length; i++) {
+            preSum[i] +=preSum[i-1] + nums[i-1];
+        }
+        int[] ans = new int[nums.length];
+        for (int i = 1; i < preSum.length; i++) {
+            ans[i-1] = preSum[i];
+        }
+        return ans;
+    }
+  /**
+   * @description 32. Longest Valid Parentheses
+   * @param s
+   * @return int
+   * @author Geek_Ling
+   * @date 2020/8/18 
+   */
+    
+    public int longestValidParentheses(String s) {
+        int maxans = 0;
+        int[] dp = new int[s.length()];
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == ')'){
+                //如果遍历的字符是')'的话，计算dp
+                if (s.charAt(i-1) == '('){
+                    //s[i-1,i]-()
+                    dp[i] = (i>=2?dp[i-2]:0)+2;
+                }else if (i-dp[i-1] > 0 && s.charAt(i-dp[i-1]-1) == '('){
+                    dp[i] = dp[i-1] +((i-dp[i-1])>=2 ? dp[i-dp[i-1]-2]:0)+2;
+                }
+                maxans = Math.max(maxans,dp[i]);
+            }
+        }
+        return maxans;
+    }
+
     /**
      * @description 452. Minimum Number of Arrows to Burst Balloons
      * 考察最多有几个不重叠区域，就至少需要几个箭头
