@@ -28,15 +28,24 @@ public class TrappingRainWater {
     /**
      * @description
      * 407. Trapping Rain Water II
-     * 思路
-     *  [i][j]
+     * BFS
      * @param heightMap
      * @return int
      * @author Geek_Ling
      * @date 2020/8/14
      */
-
     public int trapRainWater(int[][] heightMap) {
+        return 0;
+    }
+    /**
+     * @description -不能按照之前二维的思路来，二维的可以使用双指针（在一个面上）解决，但是三维的 过了41%
+     * @param heightMap
+     * @return int
+     * @author Geek_Ling
+     * @date 2020/8/26
+     */
+
+    public int trapRainWater_error(int[][] heightMap) {
         //判断二维数组是否为空
         if (heightMap == null || heightMap.length == 0 || (heightMap.length == 1 && heightMap[0].length == 0 )) return 0;
         //m*n
